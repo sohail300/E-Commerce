@@ -5,6 +5,5 @@ export interface CartItemProps {
   quantity: number;
   image: string;
   getCartItems: () => void;
-  applyDiscount: () => void;
   calculateTotals: () => void;
 }

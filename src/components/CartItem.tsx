@@ -13,7 +13,6 @@ const CartItem: React.FC<CartItemProps> = ({
   quantity,
   image,
   getCartItems,
-  applyDiscount,
   calculateTotals,
 }) => {
   const { toast } = useToast();

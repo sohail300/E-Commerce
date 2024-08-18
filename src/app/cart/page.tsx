@@ -109,7 +109,6 @@ const Cart = () => {
                   image={item.product.image}
                   quantity={item.quantity}
                   getCartItems={getCartItems}
-                  applyDiscount={applyDiscount}
                   calculateTotals={calculateTotals}
                 />
               ))}
