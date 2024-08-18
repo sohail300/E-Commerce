@@ -19,13 +19,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
-              <Image
-                src="/logo.svg"
-                alt="Logo"
-                width={32}
-                height={32}
-                className="cursor-pointer"
-              />
+              <h2 className="text-2xl font-bold">E-Commerce</h2>
             </Link>
           </div>
 

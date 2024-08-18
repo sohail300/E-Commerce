@@ -14,9 +14,9 @@ export async function POST(req: NextRequest) {
     const { discountCode } = await req.json();
 
     // This is a placeholder. In a real app, you'd verify the discount code here.
-    let discount = 0;
-    if (discountCode === "10") {
-      discount = 10000;
+    let discount = false;
+    if (discountCode === "100OFF") {
+      discount = true;
     }
 
     return NextResponse.json({ discount }, { status: 200 });

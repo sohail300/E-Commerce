@@ -51,7 +51,7 @@ const h1 = {
   color: "#333",
   fontSize: "24px",
   fontWeight: "bold",
-  textAlign: "center",
+  textAlign: "center" as const,
   margin: "30px 0",
 };
 

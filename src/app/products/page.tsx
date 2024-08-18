@@ -134,11 +134,11 @@ const Products: React.FC = () => {
       const response = await axios.get("/api/products");
       console.log(response.data.products);
 
-      // setProducts(response.data.products);
-      // setFilteredProducts(response.data.products);
+      setProducts(response.data.products);
+      setFilteredProducts(response.data.products);
 
-      setProducts(dummyProducts);
-      setFilteredProducts(dummyProducts);
+      // setProducts(dummyProducts);
+      // setFilteredProducts(dummyProducts);
     } catch (error) {
       console.log(error);
     } finally {
@@ -154,8 +154,8 @@ const Products: React.FC = () => {
     const filtered = products?.filter(
       (product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        product.price >= priceRange[0] &&
-        product.price <= priceRange[1]
+        product.price / 100 >= priceRange[0] &&
+        product.price / 100 <= priceRange[1]
     );
     setFilteredProducts(filtered);
   }, [searchTerm, priceRange, products]);
@@ -190,7 +190,7 @@ const Products: React.FC = () => {
                 htmlFor="price-range"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Price Range: ${priceRange[0]} - ${priceRange[1]}
+                Price Range: ₹{priceRange[0]} - ₹{priceRange[1]}
               </label>
               <Slider
                 id="price-range"

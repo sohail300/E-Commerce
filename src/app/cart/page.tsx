@@ -8,6 +8,8 @@ import Image from "next/image";
 import CartItem from "@/components/CartItem";
 import Loader from "@/components/Loader";
 import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 const Cart = () => {
   interface CartItem {
@@ -22,74 +24,35 @@ const Cart = () => {
   }
 
   const [discountCode, setDiscountCode] = useState("");
+  const [submitting, setIsSubmitting] = useState(false);
+  const [gettingDiscount, setGettingDiscount] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState<CartItem[]>([]);
+  const { toast } = useToast();
 
-  // const sample = [
-  //   {
-  //     id: 1,
-  //     name: "Wireless Earbuds",
-  //     price: 79.99,
-  //     quantity: 1,
-  //     image: "https://example.com/earbuds.jpg",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Smartphone Case",
-  //     price: 19.99,
-  //     quantity: 2,
-  //     image: "https://example.com/case.jpg",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "USB-C Cable",
-  //     price: 9.99,
-  //     quantity: 3,
-  //     image: "https://example.com/cable.jpg",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Portable Charger",
-  //     price: 39.99,
-  //     quantity: 1,
-  //     image: "https://example.com/charger.jpg",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Screen Protector",
-  //     price: 14.99,
-  //     quantity: 2,
-  //     image: "https://example.com/protector.jpg",
-  //   },
-  // ];
-
-  const updateQuantity = (id: number, newQuantity: number) => {
-    setItems(
-      items.map((item) =>
-        item.product.id === id
-          ? { ...item, quantity: Math.max(0, newQuantity) }
-          : item
-      )
+  const calculateTotals = () => {
+    const subtotal = items.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
     );
+    const total = subtotal - discount;
+    return { subtotal, total };
   };
-
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0
-  );
-  const total = subtotal - discount;
 
   const applyDiscount = async () => {
     try {
+      setGettingDiscount(true);
       const response = await axios.post("/api/discount", { discountCode });
 
-      if (response.status === 200) {
-        setDiscount(response.data.discount);
+      if (response.data.discount) {
+        setDiscount(10000);
       }
     } catch (error) {
       setDiscount(0);
       console.log(error);
+    } finally {
+      setGettingDiscount(false);
     }
   };
 
@@ -108,14 +71,16 @@ const Cart = () => {
 
   async function placeItems() {
     try {
+      setIsSubmitting(true);
       const response = await axios.post("/api/payment", { discountCode });
       console.log(response);
       if (response.status === 200) {
         window.location.href = response.data.url;
-        // alert("Items placed successfully");
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -143,7 +108,9 @@ const Cart = () => {
                   price={item.product.price}
                   image={item.product.image}
                   quantity={item.quantity}
-                  updateQuantity={updateQuantity}
+                  getCartItems={getCartItems}
+                  applyDiscount={applyDiscount}
+                  calculateTotals={calculateTotals}
                 />
               ))}
             </ScrollArea>
@@ -171,7 +138,7 @@ const Cart = () => {
             <div className="border-t pt-2 mt-2">
               <div className="flex justify-between font-medium">
                 <span>Subtotal:</span>
-                <span>₹{(subtotal / 100).toFixed(2)}</span>
+                <span>₹{(calculateTotals().subtotal / 100).toFixed(2)}</span>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -180,7 +147,14 @@ const Cart = () => {
                 value={discountCode}
                 onChange={(e) => setDiscountCode(e.target.value)}
               />
-              <Button onClick={applyDiscount}>Apply</Button>
+              <Button
+                className="flex flex-row justify-center items-center"
+                disabled={gettingDiscount}
+                onClick={applyDiscount}
+              >
+                {gettingDiscount && <Loader2 className=" animate-spin mr-2" />}
+                Apply
+              </Button>
             </div>
             {discount > 0 && (
               <div className="flex justify-between text-green-600">
@@ -190,9 +164,15 @@ const Cart = () => {
             )}
             <div className="flex justify-between font-bold text-lg">
               <span>Total:</span>
-              <span>₹{(total / 100).toFixed(2)}</span>
+              <span>₹{(calculateTotals().total / 100).toFixed(2)}</span>
             </div>
-            <Button className="w-full" onClick={placeItems}>
+
+            <Button
+              className="w-full flex flex-row justify-center items-center"
+              disabled={submitting}
+              onClick={placeItems}
+            >
+              {submitting && <Loader2 className=" animate-spin mr-2" />}
               Proceed to Payment
             </Button>
           </CardContent>

@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { productId } = await req.json();
+    console.log(productId);
     const cartItem = await prisma.cartItem.findFirst({
       where: {
         userId: parseInt(userId),
@@ -21,12 +22,21 @@ export async function POST(req: NextRequest) {
     });
 
     if (!cartItem) {
+      // Add the product to the cart with quantity 1
+      await prisma.cartItem.create({
+        data: {
+          userId: parseInt(userId),
+          productId: productId,
+          quantity: 1,
+        },
+      });
       return NextResponse.json(
-        { msg: "Product not found in cart" },
-        { status: 404 }
+        { msg: "Product added to cart" },
+        { status: 201 }
       );
     }
 
+    // If the product is already in the cart, increment the quantity
     await prisma.cartItem.update({
       where: {
         id: cartItem.id,
