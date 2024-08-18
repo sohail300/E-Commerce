@@ -10,25 +10,30 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-export const OrderConfirmationEmail = (
-  customerName: string,
-  totalAmount: number
-) => (
+export const OrderConfirmationEmail = (totalAmount: number) => (
   <Html>
     <Head />
-    <Preview>Your order has been confirmed</Preview>
+    <Preview>
+      Your order has been confirmed - Thank you for shopping with us!
+    </Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Order Confirmation</Heading>
-        <Text style={text}>Dear {customerName},</Text>
+        <Heading style={h1}>Order Confirmed!</Heading>
+        <Text style={text}>Dear Valued Customer,</Text>
         <Text style={text}>
-          Thank you for your order. We are pleased to confirm that we have
-          received it and are processing it now.
+          Great news! We have received your order and it is being processed with
+          care. We are excited to get your items to you as soon as possible.
         </Text>
         <Section style={orderDetails}>
-          <Text style={totalText}>Total Amount: ${totalAmount.toFixed(2)}</Text>
+          <Text style={totalText}>Order Total: ₹{totalAmount.toFixed(2)}</Text>
         </Section>
-        <Text style={text}>Thank you for shopping with us!</Text>
+        <Text style={text}>
+          Thank you for choosing us. We truly appreciate your business!
+        </Text>
+        <Text style={footer}>
+          If you have any questions, please do not hesitate to contact our
+          customer support.
+        </Text>
       </Container>
     </Body>
   </Html>
@@ -43,29 +48,45 @@ const main = {
 const container = {
   backgroundColor: "#ffffff",
   margin: "0 auto",
-  padding: "20px 0 48px",
-  marginBottom: "64px",
+  padding: "40px 20px",
+  borderRadius: "8px",
+  maxWidth: "600px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
 };
 
 const h1 = {
-  color: "#333",
-  fontSize: "24px",
+  color: "#1a1a1a",
+  fontSize: "28px",
   fontWeight: "bold",
   textAlign: "center" as const,
   margin: "30px 0",
+  textTransform: "uppercase" as const,
 };
 
 const text = {
-  color: "#333",
+  color: "#4a4a4a",
   fontSize: "16px",
   lineHeight: "26px",
+  marginBottom: "20px",
 };
 
 const orderDetails = {
   margin: "30px 0",
+  backgroundColor: "#f8f8f8",
+  padding: "20px",
+  borderRadius: "4px",
 };
 
 const totalText = {
   fontWeight: "bold",
-  marginTop: "15px",
+  fontSize: "18px",
+  color: "#2b2b2b",
+};
+
+const footer = {
+  color: "#8898aa",
+  fontSize: "14px",
+  lineHeight: "22px",
+  marginTop: "30px",
+  textAlign: "center" as const,
 };

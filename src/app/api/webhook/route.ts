@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         });
 
         if (user) {
-          mailer(user.email, user.name || "User", amount);
+          mailer(user.email, amount);
           console.log("Mail sent");
           break;
         }
