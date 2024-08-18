@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
                 </Link>
                 <Link href="/signup">
                   <Button
-                    variant="primary"
+                    variant="default"
                     className="bg-blue-600 text-white hover:bg-blue-700"
                   >
                     Sign Up
@@ -137,7 +137,7 @@ const Navbar: React.FC = () => {
                 </Link>
                 <Link href="/signup">
                   <Button
-                    variant="primary"
+                    variant="default"
                     className="w-full text-left bg-blue-600 text-white hover:bg-blue-700"
                   >
                     Sign Up
