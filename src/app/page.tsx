@@ -91,8 +91,8 @@ const LandingPage = () => {
           <p className="text-lg text-gray-600 mb-6 text-center leading-relaxed">
             At <span className="font-semibold">E-Commerce</span>, we bring you
             the best deals, high-quality products, and a seamless shopping
-            experience. Whether you're looking for fashion, electronics, or home
-            essentials, we've got everything you need.
+            experience. Whether you are looking for fashion, electronics, or
+            home essentials, we have got everything you need.
           </p>
           <div className="flex justify-center">
             <Link href="/signin">
