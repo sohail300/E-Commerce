@@ -98,7 +98,7 @@ const CartItem: React.FC<CartItemProps> = ({
         alt={name}
         width={100}
         height={100}
-        className="w-16 h-16 object-cover rounded mr-4"
+        className="w-16 h-16 object-contain rounded mr-4"
       />
       <div className="flex-grow">
         <h3 className="font-medium">{name}</h3>

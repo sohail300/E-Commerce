@@ -22,8 +22,6 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { userLoginSchema, userLoginType } from "@/schema/userLogin";
-import axios from "axios";
-import { GoogleLogo } from "@/components/GoogleFont";
 import { signIn } from "next-auth/react";
 
 const Signin = () => {
@@ -58,23 +56,6 @@ const Signin = () => {
       setIsSubmiting(false);
     }
   }
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signIn("google", {
-        callbackUrl: "/products",
-        redirect: false,
-      });
-
-      if (result?.error) {
-        console.error("Google sign-in error:", result.error);
-      } else if (result?.url) {
-        router.push(result.url);
-      }
-    } catch (error) {
-      console.error("Error during Google sign-in:", error);
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
@@ -130,24 +111,6 @@ const Signin = () => {
               </Button>
             </form>
           </Form>
-        </CardContent>
-        <div className="my-8 relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-gray-300"></span>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">OR</span>
-          </div>
-        </div>
-        <CardContent>
-          <Button
-            variant="outline"
-            className="w-full flex items-center justify-center gap-2"
-            onClick={() => handleGoogleSignIn()}
-          >
-            <GoogleLogo />
-            Sign in with Google
-          </Button>
         </CardContent>
       </Card>
     </div>

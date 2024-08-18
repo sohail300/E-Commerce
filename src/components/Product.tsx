@@ -49,7 +49,7 @@ export function Product({
           alt={name}
           width={100}
           height={100}
-          className="w-full h-48 object-cover mb-4 rounded"
+          className="w-full h-48 object-contain mb-4 rounded"
         />
         <h2 className="text-lg font-semibold">{name}</h2>
         <p className="text-gray-600">₹{price / 100}</p>
