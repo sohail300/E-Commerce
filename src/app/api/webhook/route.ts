@@ -8,7 +8,8 @@ const stripeInstance = new Stripe(process.env.STRIPE_API_KEY!);
 
 export async function POST(req: Request) {
   try {
-    const event = await req.json();
+    const rawBody = await req.text();
+    const event = JSON.parse(rawBody);
 
     if (process.env.STRIPE_ENDPOINT_SECRET) {
       // Get the signature sent by Stripe
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
 
       try {
         stripeInstance.webhooks.constructEvent(
-          await req.text(),
+          rawBody,
           signature,
           process.env.STRIPE_ENDPOINT_SECRET
         );
