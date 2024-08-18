@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-// 4000003560000008
 
 const PaymentFailurePage: React.FC = () => {
   return (

@@ -1,6 +1,7 @@
 import prisma from "@/lib/db";
 import { mailer } from "@/utils/mailer";
 import { NextResponse } from "next/server";
+// 4000003560000008
 
 export async function POST(req: Request) {
   try {
@@ -13,16 +14,16 @@ export async function POST(req: Request) {
         console.log(customerUpdated);
 
         const { userid, amount } = customerUpdated.metadata;
-
         console.log(userid, amount);
+
         const user = await prisma.user.findUnique({
           where: {
-            id: userid,
+            id: parseInt(userid),
           },
         });
 
         if (user) {
-          mailer(user.email, amount);
+          mailer(user.email, parseInt(amount) / 100);
           console.log("Mail sent");
           break;
         }
